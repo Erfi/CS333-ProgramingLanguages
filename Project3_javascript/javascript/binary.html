@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<p> Enter the size of the random array: </p>
+<input type="text" id="ArraySize" value="10">
+<button type="button" onclick="displayArray()">Show Array</button>
+<p id= "array">array</p>
+
+
+<p> What number are you searching for? </p>
+<input type="text" id="myText" value="search for...">
+<button type="button" onclick="displayResult()">Search Array</button>
+
+
+<p id= "result">result</p>
+
+
+<script>
+//Creating variable "array" and filling it with random numbers
+var array=[];
+var size;
+function makeArray(){
+	size = document.getElementById("ArraySize").value;
+	for(i=0; i< size; i++){
+		array[i] = Math.round(Math.random()*100);
+		array[4] = 42;
+	}
+	array.sort(function(a,b){return a-b});
+}
+
+function displayArray(){
+	makeArray();
+	document.getElementById("array").innerHTML = array.valueOf();
+}
+
+
+
+function binary(a, value, lo, hi) {
+    if (hi < lo)
+        return null;
+    var mid = Math.floor((lo+hi)/2);
+    if (a[mid] > value)
+        return binary(a, value, lo, mid-1);
+    else if (a[mid] < value)
+        return binary(a, value, mid+1, hi);
+    else
+        return mid;
+}
+
+function displayResult(){
+	var x = document.getElementById("myText").value;
+	var r = binary(array, x, 0 ,array.length);
+	if(r == null){
+		document.getElementById("result").innerHTML = "Not in the Array";
+	}else{
+		document.getElementById("result").innerHTML = r.valueOf();
+	}
+}
+
+</script>
+
+</body>
+</html> 
+
+
+

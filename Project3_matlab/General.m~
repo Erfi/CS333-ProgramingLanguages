@@ -96,12 +96,14 @@ x = [a,b]; for i=2:n, x=[x, 2.25*x(i)-x(i-1)/2]; end;
 ind = 1:n+1;
 semilogy(ind,x,ind,y)
 ........................................
-% use tic toc to measure the time it takes [in ms] for a part of a program
-%tic
-%...
-%program
-%...
-%time = toc
+%{
+use tic toc to measure the time it takes [in ms] for a part of a program
+tic
+...
+program
+...
+time = toc
+%}
 ........................................
 
 
