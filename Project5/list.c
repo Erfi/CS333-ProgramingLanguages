@@ -23,8 +23,7 @@ LinkedList *ll_create( void ) {
 	}
 
 	ll->head = NULL;
-	ll->tail = ll->head;
-	ll->current = ll_head;
+	ll->tail = NULL;
 	ll->size = 0;
 
 	return(ll);
@@ -34,9 +33,11 @@ LinkedList *ll_create( void ) {
 // adds a node to the front of the list, storing the given data in the node
 void ll_push(LinkedList *l, void *data ){
 	Node *n = malloc(sizeof(Node));
-	n->next = ll_head;
+	n->next = l->head;
 	n->data = data;
-
+	if(l->head == NULL){// if pushing the first node to the list
+		l->tail = n;
+	}
 	l->head = n;
 	l->size++;
 }
@@ -47,7 +48,7 @@ void *ll_pop( LinkedList *ll ) {
 	Node *n;
 	void *node_data;
 	
-	if( ll->root == NULL )
+	if( ll->head == NULL )
 		return(NULL);
 
 	n = ll->head;
@@ -65,9 +66,15 @@ void ll_append(LinkedList *l, void *data ){
 	Node* n = malloc(sizeof(Node));
 	n->next = NULL;
 	n->data = data;
-
-	l->tail->next = n;
-	l->size++;
+	if(l->head == NULL){ // appending the first node
+		l->head = n;
+		l->tail = n;
+		l->size++;
+	}else{
+		l->tail->next = n;
+		l->tail = n;
+		l->size++;
+	}
 }
 
 
@@ -76,6 +83,7 @@ void ll_append(LinkedList *l, void *data ){
 void *ll_remove( LinkedList *l, void *target, int (*compfunc)(void *, void *) ){
 	Node* p;
 	Node* q;
+	void* node_data;
 	if(l->head == NULL){//if the list is empty
 		printf("Warning: ll_remove >> Cannot remove, list is empty.");
 		return NULL;
@@ -90,11 +98,15 @@ void *ll_remove( LinkedList *l, void *target, int (*compfunc)(void *, void *) ){
 				l->tail = q;
 			}
 			q->next = p->next;
+			node_data = n->data;
 			free(n);
 
 			l->size--;
+
+			return node_data;
 		}
 	}
+	return NULL;
 }
 
 
@@ -108,7 +120,7 @@ int ll_size(LinkedList *l){
 void ll_clear( LinkedList *ll, void (*freefunc)(const void *) ) {
 	Node *p, *q;
 
-	p = ll->root;
+	p = ll->head;
 	while( p != NULL ) {
 		q = p->next;
 		if(freefunc && p->data)
@@ -116,111 +128,21 @@ void ll_clear( LinkedList *ll, void (*freefunc)(const void *) ) {
 		free(p);
 		p = q;
 	}
-	free( ll );
-	return;
+	ll->head = NULL;
+	ll->tail = NULL;
+	ll->size = 0;
 }
 
 //traverses the list and applies the given function to the data at each node.
 void ll_map( LinkedList *l, void (*mapfunc)(void *) ){
 	Node* p;
 	p = l->head;
-	while(P){
+	while(p){
 		if(mapfunc && p->data){
 			mapfunc(p->data);
 		}
 		p = p->next;
 	}
 }
-
-
-
-/* 
-	 Inserts the item into the list using the specified comparison
-	 function.
-*/
-void ll_insert( LinkedList *ll, void *item, int (*comp)(const void *, const void *) ) {
-	Node *p, *q, *n;
-
-	// see if the list is empty or the item replaces the starting element
-	if( ll->root == NULL || comp(item, ll->root->data) <= 0 ) {
-		n = malloc(sizeof(Node));
-		n->next = ll->root;
-		n->data = item;
-		ll->root = n;
-		return;
-	}
-
-	// deal with the rest of the list, it doesn't go in front
-	q = ll->root;
-	p = q->next;
-	while( p ) {
-		// see if it comes between p and q
-		if( comp(item, p->data) <= 0 ) {
-			n = malloc(sizeof(Node));
-			n->data = item;
-			n->next = p;
-			q->next = n;
-			return;
-		}
-		q = p;
-		p = q->next;
-	}
-	
-	// goes at the end
-	n = malloc(sizeof(Node));
-	n->data = item;
-	n->next = NULL;
-	q->next = n;
-
-	return;
-}
-
-/*
-	Returns true if the list is empty
-*/
-int ll_empty( LinkedList *ll ) {
-	if( ll->root == NULL )
-		return(1);
-	return(0);
-}
-
-/* 
-	 Return a pointer to the top item in the list
-*/
-void *ll_peek( LinkedList *ll ) {
-	if( ll->root == NULL )
-		return(NULL);
-
-	return(ll->root->data);
-}
-
-/*
-	Sets the current iterator to the head of the list and returns the
-	data from the first node.
- */
-void *ll_head( LinkedList *ll ) {
-	ll->current = ll->root;
-	if( ll->current != NULL )
-		return( ll->current->data );
-
-	return(NULL);
-}
-
-/*
-	Returns the data from the next element in the list as specified by
-	the iterator.  Returns NULL if the end of the list has been reached.
- */
-void *ll_next( LinkedList *ll ) {
-	if( ll->current != NULL )
-		ll->current = ll->current->next;
-
-	if( ll->current != NULL )
-		return( ll->current->data );
-
-	return(NULL);
-}
-
-
-
 
 

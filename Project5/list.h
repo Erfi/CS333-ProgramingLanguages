@@ -20,9 +20,8 @@ typedef struct {
 
 // List data structure
 typedef struct {
-	Node *rhead;
+	Node *head;
 	Node *tail;
-	Node *current;
 	int size;
 } LinkedList;
 
@@ -50,24 +49,5 @@ void ll_clear( LinkedList *ll, void (*freefunc)(const void *) );
 
 //traverses the list and applies the given function to the data at each node.
 void ll_map( LinkedList *l, void (*mapfunc)(void *) );
-
-
-// insert an item into the list
-void ll_insert( LinkedList *ll, void *item, int (*comp)(const void *, const void *) );
-
-//****POINTER MANAGEMENT FUNCTIONS*****
-
-// return a pointer to the top item in the list
-void *ll_peek( LinkedList *ll );
-
-// returns a pointer to the data in the first element or null, resets the current pointer
-void *ll_head( LinkedList *ll );
-
-// moves the current pointer forward and returns the next data element or null
-void *ll_next( LinkedList *ll );
-
-// returns true if the list is empty
-int ll_empty( LinkedList *ll );
-
 
 #endif
