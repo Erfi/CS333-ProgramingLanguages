@@ -81,20 +81,21 @@
 %         a = inv(a);
 % end
 % ..........................................
-% %round off errors and symbolic arithmetic 
-% %sym() teats the number as rationals hence it takes much longer
-% % they all should be of the same type in a n expression for it to work
-% clear;
-% a = sym(1/3); % to get rid of round off errors use a = sym(1/3)
-% b = sym(1/12); % b = sym(1/12)
-% n=50;
-% y = [a,b]; for i=2:n, y = [y,2.25*y(i)-y(i-1)/2]; end;
-% a=1;
-% b=1/4;
-% n=50;
-% x = [a,b]; for i=2:n, x=[x, 2.25*x(i)-x(i-1)/2]; end;
-% ind = 1:n+1;
-% semilogy(ind,x,ind,y)
+%round off errors and symbolic arithmetic 
+%sym() teats the number as rationals hence it takes much longer
+% they all should be of the same type in a n expression for it to work
+clear;
+a = 1/3; % to get rid of round off errors use a = sym(1/3)
+b = 1/12; % b = sym(1/12)
+n=50;
+y = [a,b]; for i=2:n, y = [y,2.25*y(i)-y(i-1)/2]; end;
+a=1;
+b=1/4;
+n=50;
+x = [a,b]; for i=2:n, x=[x, 2.25*x(i)-x(i-1)/2]; end;
+ind = 1:n+1;
+semilogy(ind,x,ind,y);
+title('Graph not using symbolic variables');
 % ........................................
 % %{
 % use tic toc to measure the time it takes [in ms] for a part of a program
