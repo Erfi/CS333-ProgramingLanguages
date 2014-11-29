@@ -1,0 +1,55 @@
+<!--
+Erfan Azad
+Date: 28 November 2014
+File: autoMem.html
+Description: Experimenting with automatic memory management in javascript
+-->
+
+<!DOCTYPE html>
+<html>
+<p><b>Max Time</b></p>
+<p id="max"></p>
+
+<script>
+var maxTime = 0;
+var start;
+var end;
+var runTime;
+
+/*
+makes an array of 100 random numbers.
+*/
+function memFiller(){
+	for (j=0; j<200; j++){
+		var array = [];
+		array[j] = Math.random()*10;
+	}	
+}
+
+/*
+Runs the memFiller function 10000 times.
+sets the current text to the time taken for each iteration
+sets the max text to the maximum time taken in each run time
+*/
+function run(){
+	for(i=0; i<10000; i++){
+		start = new Date().getTime();
+		memFiller();
+		end = new Date().getTime();
+		runTime = end - start;
+
+		if(runTime > maxTime){
+			maxTime = runTime;
+			document.getElementById("max").innerHTML = runTime;
+			document.write(runTime +"\n");
+			continue;
+		}
+		document.getElementById("max").innerHTML = maxTime;
+		document.write(runTime +"\n");
+	}
+}
+
+run();
+	
+</script>
+</html>

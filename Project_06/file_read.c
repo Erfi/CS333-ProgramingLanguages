@@ -13,7 +13,7 @@ it should write the set of numbers back to a user-defined file or the terminal i
 #include <stdio.h>
 
 int main(int argc, char* argv[]){
-	int lineNum =0;
+	// int lineNum =0;
 	int i;
 	FILE* fp1;
 	FILE* fp2;
@@ -23,11 +23,6 @@ int main(int argc, char* argv[]){
 	}else{
 		fp1 = fopen(argv[1] , "r");
 		if (fp1 == NULL) perror ("Error opening file");
-		while (EOF != (fscanf(fp1,"%*[^\n]"), fscanf(fp1,"%*c"))){//counting the number of lines
-    		++lineNum;
-		}
-		printf("numner of lines: %d\n", lineNum);
-
 		if(argc == 2){//write to stdout
 			while(NULL != fgets(buffer, sizeof(buffer), fp1)){
 				puts(buffer);
@@ -40,7 +35,8 @@ int main(int argc, char* argv[]){
 			}
 			fclose(fp2);
 		}
+		fclose(fp1);
 	}
-	fclose(fp1);
 	return 0;
 }
+
