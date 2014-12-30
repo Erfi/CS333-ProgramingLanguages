@@ -54,7 +54,7 @@ void parSort(int* array, int size, int numThreads){
 	threadInfo ti[numThreads];
 	pthread_t thread[numThreads];
 
-	for(i=0;i<numThreads;i++) {
+	for(i=0;i<numThreads;i++) {// setting each threadinfo 
 	    ti[i].size = size/numThreads;
 	    ti[i].array = &( array[i*(size/numThreads)] );
   	}
@@ -65,8 +65,14 @@ void parSort(int* array, int size, int numThreads){
 
   	for(k=0;k<numThreads;k++) {
     pthread_join( thread[k], NULL );
-  }
+  	}
 
+  	//calling merge to merge the arrays
+  	merge(ti, array);
+}
+
+void merge(threadInfo* ti, int* outArray){
+	
 	
 }
 //----------------------------------------------------------------------------------
